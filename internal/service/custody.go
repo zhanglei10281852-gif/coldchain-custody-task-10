@@ -76,8 +76,7 @@ func (s *CustodyService) ResolveHandoff(ctx context.Context, handoffID string, a
 		if accepted {
 			status = domain.HandoffAccepted
 		}
-		resolvedAt := handoff.ResolutionTime(s.clock.Now())
-		if err := handoff.Resolve(status, note, resolvedAt); err != nil {
+		if err := handoff.Resolve(status, note, s.clock.Now()); err != nil {
 			return err
 		}
 		if err := tx.UpdateHandoff(ctx, handoff, handoff.Version); err != nil {

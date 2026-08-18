@@ -35,16 +35,6 @@ type CustodyHandoff struct {
 	Version        int64         `json:"version"`
 }
 
-func (h CustodyHandoff) ResolutionTime(now time.Time) time.Time {
-	if !h.CreatedAt.IsZero() {
-		return h.CreatedAt.UTC()
-	}
-	if now.IsZero() {
-		return h.UpdatedAt.UTC()
-	}
-	return now.UTC()
-}
-
 func (h CustodyHandoff) Validate() error {
 	if strings.TrimSpace(h.ShipmentID) == "" || strings.TrimSpace(h.FromCustodian) == "" || strings.TrimSpace(h.ToCustodian) == "" {
 		return FieldError{Field: "handoff", Message: "shipment and custodians are required"}
